@@ -1,0 +1,70 @@
+quiz 1
+b a b b a c a
+
+exercise 1
+
+PART 2
+
+Relation   Foreign Key
+Hotel		---
+Room		hotelNo
+Booking		hotelNo
+Guest		---
+
+Entity Integrity: for each relation, any row of the primary key cannot be Null. Here, the hotelNo of Hotel, the roomNo and hotelNo of Room, the hotelNo guestNo dateFrom of Booking, the guestNo of Guest cannot be null.
+Referencial Integrity: any row of a foreign key can contain either a null value, or only values from a parent table's primary key or a candidate key. Here, the hotelNo in both Room and Guest cannot be null.
+
+PART 3
+
+Student
+PK: ID Number - for each student, the ID should be unique
+AK: Phone Number - suppose no two share the same phone
+FK: no  
+Integrity constrains:ID number cannot be null.
+Domain:
+Given Name-VARCHAR Family Name-VARCHAR ID number-LONG
+Email address-VARCHAR Phone Number-LONG 
+
+Grade
+PK: (Student ID Number, Course ID Number) - for each course, a student can have only one grade
+AK: no
+FK: Student ID Number, Course ID Number
+Integrity constrains: Student ID Number and Course ID Number cannot be null.
+Domain:
+Student ID Number-LONG Section Name-VARCHAR
+Course ID Number-LONG Term-VARCHAR Grade-Integer
+
+Section
+PK: (Name, Course ID Number) - for each course, any section has a unique name
+AK: (Course ID Number, Instructor ID Number, Meeting Time)
+FK: Course ID Number, Instructor ID Number
+Integrity constrains: Name and Course ID Number cannot be null.
+Domain:
+Name-VARCHAR Course ID Number-LONG Term-VARCHAR
+Instructor ID Number-LONG Meeting time-TIME Meeting Room Number-LONG
+
+Course
+PK: ID Number
+AK: no
+FK: no
+Integrity constrains: ID Number cannot be null.
+Domain:
+ID Number-LONG Course Name-VARCHAR Course Description-VARCHAR
+
+Instructor
+PK: ID Number
+AK: Email Address - suppose no two instructor share the same email
+FK: no
+Integrity constrains: ID Number cannot be null.
+Domain:
+ID Number-LONG Given Name-VARCHAR Family Name-VARCHAR
+Office Room Number-Integer Office Phone Number-LONG
+Email address-VARCHAR
+
+Appointment
+PK: (Student ID Number, Time, Date)
+AK: no
+FK: no
+Integrity constrains: Student ID Number, Time, Date cannot be null.
+Domain:
+Student ID Number-LONG Time-TIME Date-DATE

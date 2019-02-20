@@ -1,0 +1,13 @@
+begin:  MOV AL,3DH
+up:		OUT 220H,AL
+		INC AL
+		CMP AL,0CDH
+		JNZ up
+		OUT 220H,AL
+		CALL DELAY_20MS
+		DEC AL
+down:	OUT 220H,AL
+		DEC AL
+		CMP AL,3DH
+		JNZ down
+		JMP begin

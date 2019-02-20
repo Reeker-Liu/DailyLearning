@@ -1,0 +1,18 @@
+messageNum	content					applyNum	studentNum	time
+1		Your leave apply has been rejected.	1		200101		2013-8-31 10:10:10
+2		Your leave apply has been rejected.	2		200102		2013-9-1 19:22:38
+3		Your leave apply has been passed.	3		200103		2013-9-2 14:05:30
+4		Your leave apply has been passed.	4		200201		2013-9-3 08:30:27
+5		Your leave apply has been passed.	5		200202		2013-9-4 20:26:05
+
+
+INSERT INTO Message
+VALUES(1, 'Your leave apply has been rejected.', '1', '200101', to_date('2013-8-31 10:10:10','yyyy-mm-dd hh24:mi:ss'));
+INSERT INTO Message
+VALUES(2, 'Your leave apply has been rejected.', '2', '200102', to_date('2013-9-1 19:22:38','yyyy-mm-dd hh24:mi:ss'));
+INSERT INTO Message
+VALUES(3, 'Your leave apply has been passed.', '3', '200103', to_date('2013-9-2 14:05:30','yyyy-mm-dd hh24:mi:ss'));
+INSERT INTO Message
+VALUES(4, 'Your leave apply has been passed.', '4', '200201', to_date('2013-9-3 08:30:27','yyyy-mm-dd hh24:mi:ss'));
+INSERT INTO Message
+VALUES(5, 'Your leave apply has been passed.', '5', '200202', to_date('2013-9-4 20:26:05','yyyy-mm-dd hh24:mi:ss'));

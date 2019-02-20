@@ -1,0 +1,87 @@
+.main{
+    margin:20px auto;
+    padding:10px;
+    background:#EEE;
+    width:480px;
+}
+
+.header ul li{
+    list-style-type:none;
+    display: inline-block;
+
+}
+.header ul li div{
+    margin: 5px;
+    padding: 5px;
+}
+
+.tip{
+    font-size: 31px;
+}
+.numbers{
+    color: red;
+    font-size: 20px;
+}
+
+#restartBt{
+    background-image: url("pen1.png");
+    background-repeat: no-repeat;
+    background-position:center;
+    width: 41px;
+    height:41px;
+    padding: 3px;
+    cursor:pointer
+}
+#restartBt:hover{
+    background-image: url("pen2.png");
+}
+
+
+.main table {
+    background:#CCC;
+    float:left;
+    margin: 20px 50px;
+}
+
+.main table td {
+    border:2px outset #EEE;
+    font-size:20px;
+    width:32px;
+    height:32px;
+    text-align:center;
+    cursor:pointer;
+}
+
+.main table td:hover {
+    background-color: #AAA;
+}
+
+.landMine {
+    background-image:url(mine.png);
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.main table td.normal {
+    border:2px solid #EEE;
+    background-color:#AAA;
+}
+
+.main table td.normal:hover {
+    background-color:#AAA;
+}
+
+.flag {
+    background-image:url(flag.png);
+    background-position:center;
+    background-repeat:no-repeat;
+}
+
+.main:after {
+    clear: both;
+    display: block;
+    content: "";
+    line-height: 0;
+    height: 0;
+    visibility:hidden;
+}

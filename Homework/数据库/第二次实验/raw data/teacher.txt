@@ -1,0 +1,11 @@
+teacherNum	teacherName	sex	title		password
+1		Kobe Bryant	m	Prof		kbbm
+2		Kevin Garnett	m	Assistant Prof	kgwk
+3		Maya Moore	f	Lecturer	mm@1987
+
+INSERT INTO Teacher(teacherNum, teacherName, sex, title, password)
+VALUES('1', 'Kobe Bryant', 'm', 'Prof', 'kbbm');
+INSERT INTO Teacher(teacherNum, teacherName, sex, title, password)
+VALUES('2', 'Kevin Garnett', 'm', 'Assistant Prof', 'kgwk');
+INSERT INTO Teacher(teacherNum, teacherName, sex, title, password)
+VALUES('3', 'Maya Moore', 'f', 'Lecturer', 'mm@1987');

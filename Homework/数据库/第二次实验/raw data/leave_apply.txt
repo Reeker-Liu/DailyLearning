@@ -1,0 +1,32 @@
+applyNum	applyTime	reason		state		studentNum	lessonNum	teacherNum
+1		2013-8-29	personal leave	failed		200101		1		1
+2		2013-8-30	sick leave	failed		200102		1		1
+3		2013-8-31	sick leave	failed		200103		1		1
+4		2013-9-1	family visit	failed		200201		2		2
+5		2013-9-2	emergency leave	failed		200202		2		2
+6		2013-9-3	personal leave	unchecked	200203		3		3
+7		2013-9-4	sick leave	unchecked	200301		3		3
+8		2013-9-5	sick leave	passed		200201		3		3
+9		2013-9-6	sick leave	failed		200202		4		3
+10		2013-9-7	personal leave	unchecked	200203		4		3
+
+INSERT INTO Leave_apply
+VALUES(1, Date'2013-8-29', 'personal leave', 'failed', '200101', '1', '1');
+INSERT INTO Leave_apply
+VALUES(2, Date'2013-8-30', 'sick leave', 'failed', '200102', '1', '1');
+INSERT INTO Leave_apply
+VALUES(3, Date'2013-8-31', 'sick leave', 'failed', '200103', '1', '1');
+INSERT INTO Leave_apply
+VALUES(4, Date'2013-9-1', 'family visit', 'failed', '200201', '2', '2');
+INSERT INTO Leave_apply
+VALUES(5, Date'2013-9-2', 'emergency leave', 'failed', '200202', '2', '2');
+INSERT INTO Leave_apply
+VALUES(6, Date'2013-9-3', 'personal leave', 'unchecked', '200203', '3', '3');
+INSERT INTO Leave_apply
+VALUES(7, Date'2013-9-4', 'sick leave', 'unchecked', '200301', '3', '3');
+INSERT INTO Leave_apply
+VALUES(8, Date'2013-9-5', 'sick leave', 'passed', '200201', '3', '3');
+INSERT INTO Leave_apply
+VALUES(9, Date'2013-9-6', 'sick leave', 'failed', '200202', '4', '3');
+INSERT INTO Leave_apply
+VALUES(10, Date'2013-9-7', 'personal leave', 'unchecked', '200203', '4', '3');
