@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE info SYSTEM "SpyBase1.dtd">
+<!-- 被2013 sp1 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
+<info>
+	<aliasTable>
+		<aliasRow aID="1">
+			<spyREF>A001</spyREF>
+			<alias>Spy Grrrl</alias>
+		</aliasRow>
+		<aliasRow aID="2">
+			<spyREF>A001</spyREF>
+			<alias>La Femme Nikki</alias>
+		</aliasRow>
+		<aliasRow aID="3">
+			<spyREF>A006</spyREF>
+			<alias>LL</alias>
+		</aliasRow>
+		<aliasRow aID="4">
+			<spyREF>A006</spyREF>
+			<alias>Fred</alias>
+		</aliasRow>
+		<aliasRow aID="5">
+			<spyREF>A003</spyREF>
+			<alias>Big Ears</alias>
+		</aliasRow>
+		<aliasRow aID="6">
+			<spyREF>A004</spyREF>
+			<alias>Inspector Gadget</alias>
+		</aliasRow>
+		<aliasRow aID="7">
+			<spyREF>A004</spyREF>
+			<alias>Don Adams</alias>
+		</aliasRow>
+	</aliasTable>
+	<missionTable>
+		<missionRow mID="M101">
+			<spyREF>A001</spyREF>
+			<date>2005/4/15</date>
+			<description>Crack the code</description>
+			<status>Mission Accomplished</status>
+		</missionRow>
+		<missionRow mID="M102">
+			<spyREF>A001</spyREF>
+			<date>2006/2/15</date>
+			<description>Get the source</description>
+			<status>Mission Accomplished</status>
+		</missionRow>
+		<missionRow mID="M103">
+			<spyREF>A001</spyREF>
+			<date>2006/5/4</date>
+			<description>Hit the target</description>
+			<status>In Progress</status>
+		</missionRow>
+		<missionRow mID="M104">
+			<spyREF>A006</spyREF>
+			<date>2006/6/15</date>
+			<description>Shoot the rapid</description>
+			<status>In Progress</status>
+		</missionRow>
+		<missionRow mID="M105">
+			<spyREF>A003</spyREF>
+			<date>2005/11/4</date>
+			<description>Get the big cheese</description>
+			<status>In Progress</status>
+		</missionRow>
+		<missionRow mID="M106">
+			<spyREF>A003</spyREF>
+			<date>2006/4/4</date>
+			<description>Map the area</description>
+			<status>In Progress</status>
+		</missionRow>
+		<missionRow mID="M107">
+			<spyREF>A099</spyREF>
+			<date>2006/5/2</date>
+			<description>Get Smart</description>
+			<status>In Progress</status>
+		</missionRow>
+		<missionRow mID="M108">
+			<spyREF>A004</spyREF>
+			<date>1967/2/15</date>
+			<description>Protect Chief</description>
+			<status>In Progress</status>
+		</missionRow>
+		<missionRow mID="M109">
+			<spyREF>A004</spyREF>
+			<date>2006/6/15</date>
+			<description>Get some style</description>
+			<status>Mission Accomplished</status>
+		</missionRow>
+	</missionTable>
+	<spyTable>
+		<spyRow spyID="A001">
+			<firstName>Nikki</firstName>
+			<lastName>Devgood</lastName>
+		</spyRow>
+		<spyRow spyID="A006">
+			<firstName>Link</firstName>
+			<lastName>Lister</lastName>
+		</spyRow>
+		<spyRow spyID="A003">
+			<firstName>Danger</firstName>
+			<lastName>Mause</lastName>
+		</spyRow>
+		<spyRow spyID="A099">
+			<firstName>Barbara</firstName>
+			<lastName>Feldon</lastName>
+		</spyRow>
+		<spyRow spyID="A004">
+			<firstName>Maxwell</firstName>
+			<lastName>Smart</lastName>
+		</spyRow>
+	</spyTable>
+</info>
