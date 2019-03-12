@@ -60,7 +60,7 @@
 		<missionRow mID="M105">
 			<spyREF>A003</spyREF>
 			<date>2005/11/4</date>
-			<description>Get the big cheese</description>
+			<description><![CDATA[Get the <big cheese>]]></description>
 			<status>In Progress</status>
 		</missionRow>
 		<missionRow mID="M106">
