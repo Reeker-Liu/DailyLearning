@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="book.xsd">
+	<title xsi:type="bookTitleType">Data On the Web</title>
+	<author>Ruikang Liu</author>
+	<author>WWW</author>
+	<section difficulty="easy">
+		<title xsi:type="sectionTitleType">1.introduction</title>
+		<p>content ...</p>
+		<figure height="100" width="100">
+			<title xsi:type="figureTitleType">1-1.intro</title>
+			<image source="intro.jpg"></image>
+		</figure>
+	</section>
+	<section difficulty="hard">
+		<title xsi:type="sectionTitleType">2.details</title>
+		<p>content ...</p>
+		<figure height="100" width="100">
+			<title xsi:type="figureTitleType">2-1.pic1</title>
+			<image source="pic1.jpg"></image>
+		</figure>
+	</section>
+</book>

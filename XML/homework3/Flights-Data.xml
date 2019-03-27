@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+    <!-- ============================================ -->    
+    <!-- Airports                                     --> 
+    <!-- ============================================ -->    
+    <Airport airId="LHR">
+        <name>London Heathrow</name>
+        <tax>100</tax>
+    </Airport>
+    <Airport airId="ZRH">
+        <name>Zurich</name>
+        <tax>150</tax>
+    </Airport>    
+    <Airport airId="PAR">
+        <name>Paris</name>
+        <tax>100</tax>
+    </Airport>
+    <Airport airId="NPL">
+        <name>North Pole</name>
+        <tax>40</tax>
+    </Airport>    
+    <Airport airId="SPL">
+        <name>South Pole</name>
+        <tax>10</tax>
+    </Airport>
+    <Airport airId="AMS">
+        <name>Amsterdam</name>
+        <tax>100</tax>
+    </Airport>    
+    <Airport airId="PRG">
+        <name>Prague</name>
+        <tax>80</tax>
+    </Airport>
+    <Airport airId="BDP">
+        <name>Budapest</name>
+        <tax>70</tax>
+    </Airport>    
+    <Airport airId="MSW">
+        <name>Moscow</name>
+        <tax>100</tax>
+    </Airport>
+    <Airport airId="FFT">
+        <name>Frankfurt</name>
+        <tax>80</tax>
+    </Airport>
+    <!-- ============================================ -->
+    <!-- End Airports                                 -->
+    <!-- ============================================ -->
+    
+        
+    <!-- ============================================ -->
+    <!-- Flights                                      -->
+    <!-- ============================================ -->
+    
+    <!-- Starts flights from London -->
+    <Flight flightId="LX123">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>08:00:00</departure>
+        <arrival>10:00:00</arrival>
+        <source>LHR</source>
+        <destination>ZRH</destination>
+    </Flight>
+
+    <Flight flightId="LX124">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>09:00:00</departure>
+        <arrival>13:00:00</arrival>        
+        <source>LHR</source>
+        <destination>MSW</destination>
+    </Flight>
+    
+    <Flight flightId="LX125">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>10:00:00</departure>
+        <arrival>11:10:00</arrival>        
+        <source>LHR</source>
+        <destination>AMS</destination>
+    </Flight>
+    
+    <Flight flightId="LX126">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>11:00:00</departure>
+        <arrival>16:00:00</arrival>        
+        <source>LHR</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX127">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>12:00:00</departure>
+        <arrival>14:33:00</arrival>        
+        <source>LHR</source>
+        <destination>PRG</destination>
+    </Flight>
+    
+    <Flight flightId="LX128">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>08:00:00</departure>
+        <arrival>10:20:00</arrival>        
+        <source>LHR</source>
+        <destination>ZRH</destination>
+    </Flight>
+    
+    <Flight flightId="LX129">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>16:00:00</departure>
+        <arrival>10:18:00</arrival>        
+        <source>LHR</source>
+        <destination>MSW</destination>
+    </Flight>
+    
+    <Flight flightId="LX130">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>18:00:00</departure>
+        <arrival>20:10:00</arrival>        
+        <source>LHR</source>
+        <destination>AMS</destination>
+    </Flight>
+    
+    <Flight flightId="LX131">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>17:00:00</departure>
+        <arrival>23:40:00</arrival>        
+        <source>LHR</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX132">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>19:00:00</departure>
+        <arrival>22:17:00</arrival>        
+        <source>LHR</source>
+        <destination>PRG</destination>
+    </Flight>    
+    <!-- end flights from London -->
+        
+    <!-- Start flights from Frankfurt --> 
+    <Flight flightId="LX133">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>07:40:00</departure>
+        <arrival>10:00:00</arrival>        
+        <source>FFT</source>
+        <destination>NPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX134">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>08:00:00</departure>
+        <arrival>10:00:00</arrival>        
+        <source>FFT</source>
+        <destination>ZRH</destination>
+    </Flight>
+    
+    <Flight flightId="LX135">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>09:00:00</departure>
+        <arrival>10:00:00</arrival>        
+        <source>FFT</source>
+        <destination>MSW</destination>
+    </Flight>
+    
+    <Flight flightId="LX136">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>10:25:00</departure>
+        <arrival>11:00:00</arrival>        
+        <source>FFT</source>
+        <destination>AMS</destination>
+    </Flight>
+    
+    <Flight flightId="LX137">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>11:40:00</departure>
+        <arrival>12:00:00</arrival>
+        
+        <source>FFT</source>
+        <destination>SPL</destination>
+    </Flight>
+
+    <Flight flightId="LX138">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>20:45:00</departure> 
+        <arrival>22:00:00</arrival>        
+        <source>FFT</source>
+        <destination>PRG</destination>
+    </Flight>
+    
+    <Flight flightId="LX139">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>15:30:00</departure>
+        <arrival>16:40:00</arrival>        
+        <source>FFT</source>
+        <destination>NPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX140">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>10:20:00</departure>
+        <arrival>17:02:00</arrival>        
+        <source>FFT</source>
+        <destination>NPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX141">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>08:40:00</departure>
+        <arrival>20:02:00</arrival>        
+        <source>FFT</source>
+        <destination>NPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX142">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>12:10:00</departure>
+        <arrival>15:02:00</arrival>        
+        <source>FFT</source>
+        <destination>MSW</destination>
+    </Flight>
+    <!-- End flights from Frankfurt -->
+    
+    <!-- Starts flights from Amsterdam -->
+    <Flight flightId="LX160">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>08:19:00</departure>
+        <arrival>10:00:00</arrival>        
+        <source>AMS</source>
+        <destination>ZRH</destination>
+    </Flight>
+    
+    <Flight flightId="LX161">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>09:19:00</departure>
+        <arrival>10:00:00</arrival>        
+        <source>AMS</source>
+        <destination>MSW</destination>
+    </Flight>
+    
+    <Flight flightId="LX162">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>10:19:00</departure>
+        <arrival>12:04:00</arrival>        
+        <source>AMS</source>
+        <destination>AMS</destination>
+    </Flight>
+    
+    <Flight flightId="LX163">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>11:19:00</departure>
+        <arrival>12:07:00</arrival>        
+        <source>AMS</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX164">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>13:18:00</departure>
+        <arrival>16:20:00</arrival>        
+        <source>AMS</source>
+        <destination>PRG</destination>
+    </Flight>
+    
+    <Flight flightId="LX165">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>14:00:00</departure>
+        <arrival>16:01:00</arrival>        
+        <source>AMS</source>
+        <destination>ZRH</destination>
+    </Flight>
+    
+    <Flight flightId="LX166">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>09:07:00</departure>
+        <arrival>13:10:00</arrival>        
+        <source>AMS</source>
+        <destination>MSW</destination>
+    </Flight>
+    
+    <Flight flightId="LX167">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>13:07:00</departure>
+        <arrival>17:05:00</arrival>        
+        <source>AMS</source>
+        <destination>MSW</destination>
+    </Flight>
+    
+    <Flight flightId="LX168">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>11:08:00</departure>
+        <arrival>19:20:00</arrival>        
+        <source>AMS</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX169">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>12:08:00</departure>
+        <arrival>14:08:00</arrival>        
+        <source>AMS</source>
+        <destination>PRG</destination>
+    </Flight>
+    
+    <!-- end flights from Amsterdam -->
+    
+    
+    <!-- Start flights from NorthPole --> 
+    <Flight flightId="LX180">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>06:00:00</departure>        
+        <arrival>10:01:00</arrival>
+        <source>NPL</source>
+        <destination>AMS</destination>
+    </Flight>
+    
+    <Flight flightId="LX181">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>06:20:00</departure>        
+        <arrival>10:01:00</arrival>
+        <source>NPL</source>
+        <destination>ZRH</destination>
+    </Flight>
+    
+    <Flight flightId="LX182">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>06:37:00</departure>
+        <arrival>11:14:00</arrival>
+        <source>NPL</source>
+        <destination>MSW</destination>
+    </Flight>
+    
+    <Flight flightId="LX183">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>08:15:00</departure>
+        <arrival>10:01:00</arrival>        
+        <source>NPL</source>
+        <destination>AMS</destination>
+    </Flight>
+    
+    <Flight flightId="LX184">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>10:40:00</departure>
+        <arrival>19:01:00</arrival>        
+        <source>NPL</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX185">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>14:20:00</departure>
+        <arrival>23:11:00</arrival>        
+        <source>NPL</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX186">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>17:17:00</departure>
+        <arrival>23:59:00</arrival>        
+        <source>NPL</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX187">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>17:20:00</departure>
+        <arrival>23:00:00</arrival>        
+        <source>NPL</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX188">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>08:40:00</departure> 
+        <arrival>10:01:00</arrival>        
+        <source>NPL</source>
+        <destination>SPL</destination>
+    </Flight>
+    
+    <Flight flightId="LX189">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>13:18:00</departure>
+        <arrival>16:15:00</arrival>        
+        <source>NPL</source>
+        <destination>MSW</destination>
+    </Flight>
+    <!-- End flights from North Pole -->
+    
+    <!-- Start flight from Moscow -->
+    <Flight flightId="LX191">
+        <seats>100</seats>
+        <date>2005-12-24</date>
+        <departure>17:10:00</departure>
+        <arrival>23:55:00</arrival>        
+        <source>MSW</source>
+        <destination>SPL</destination>
+    </Flight>
+    <!-- End flight from Moscow. -->
+    
+    
+    
+    
+    <!-- ============================================ -->
+    <!-- END Flights                                  -->
+    <!-- ============================================ -->
+          
+    <Passenger>
+        <name>CD</name>
+        <passportnumber>123456</passportnumber>
+        <address>Univstr.26</address>        
+    </Passenger>  
+
+    <Passenger>
+        <name>CD</name>
+        <passportnumber>123457</passportnumber>
+        <address>Univstr.26</address>        
+    </Passenger>  
+    
+    
+    <!-- more Santa Claus -->
+    <Passenger>
+        <name>Santa Claus</name>
+        <passportnumber>000111</passportnumber>
+        <address>Somewhere</address>        
+    </Passenger>     
+    
+    <Passenger>
+        <name>Santa Claus</name>
+        <passportnumber>000112</passportnumber>
+        <address>Somewhere</address>        
+    </Passenger>     
+    
+    <Passenger>
+        <name>Santa Claus</name>
+        <passportnumber>000113</passportnumber>
+        <address>Somewhere</address>        
+    </Passenger>
+    
+    <Passenger>
+        <name>Santa Claus</name>
+        <passportnumber>000114</passportnumber>
+        <address>Somewhere</address>        
+    </Passenger>
+    <!-- Passengers -->
+     
+    <!-- Reservations for Santa Claus -->
+    <Reservation>
+        <date>2005-12-24</date>
+        <flightRef>LX123</flightRef>
+        <passRef>000111</passRef>
+    </Reservation>
+    
+    <Reservation>
+        <date>2005-12-24</date>
+        <flightRef>LX140</flightRef>
+        <passRef>000112</passRef>
+    </Reservation>
+    
+    <Reservation>
+        <date>2005-12-24</date>
+        <flightRef>LX138</flightRef>
+        <passRef>000113</passRef>
+    </Reservation>
+    
+    <Reservation>
+        <date>2005-12-24</date>
+        <flightRef>LX168</flightRef>
+        <passRef>000114</passRef>
+    </Reservation>
+    <!-- Reservations for Santa Claus -->
+
+    <!-- Reservations for CD -->
+    
+    
+    
+    
+    
+</doc>
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 被2013 sp1 () 使用XMLSpy v编辑的 (http://www.altova.com) by -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="info">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="aliasRow" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="spyREF" type="spyID"/>
+							<xs:element name="alias"/>
+						</xs:sequence>
+						<xs:attribute name="aID"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="missionRow" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="spyREF" type="spyID"/>
+							<xs:element name="date"/>
+							<xs:element name="description"/>
+							<xs:element name="status"/>
+						</xs:sequence>
+						<xs:attribute name="mID"/>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="spyRow" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="firstName"/>
+							<xs:element name="lastName"/>
+						</xs:sequence>
+						<xs:attribute name="spyID" type="spyID"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+		<xs:key name="spyID">
+			<xs:selector xpath="spyRow"/>
+			<xs:field xpath="@spyID"/>
+		</xs:key>
+		<xs:keyref name="spyREF" refer="spyID">
+			<xs:selector xpath="*"/>
+			<xs:field xpath="spyREF"/>
+		</xs:keyref>
+	</xs:element>
+	<xs:simpleType name="spyID">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+</xs:schema>
