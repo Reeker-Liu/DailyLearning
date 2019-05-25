@@ -164,6 +164,8 @@
   - 在一般账户下使用该命令，仅更新自己账户所使用的内存数据
 - `shutdown` / `reboot` / `halt` / `poweroff` 功能相似，但shutdown有向其他在线用户发出警告等特殊用法
 - `systemctl xx` **管理/调用系统中所有服务**
+- `ulimit` 限制用户的某些系统资源
+- `stty -a` setting tty，查看终端环境按键设定等
 
 
 #### `man`
