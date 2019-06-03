@@ -404,7 +404,7 @@
 
 ##### 报文段结构
 
-- 首部包含4x2字节字段
+- 首部包含4x16bit字段
   - 源端口号
   - 目的端口号
   - 长度（首部+数据）
@@ -598,6 +598,11 @@
 
 #### 4.1 概述
 
+- 主要组件
+  - IP协议
+  - 路由选择协议
+  - 互联网控制报文协议 ICMP
+
 - 功能
   - 转发 forwarding 涉及分组在单一路由器中从入链到出链的传送
   - 路由选择 routing 涉及一个网络的所有路由器，经路由选择协议交互，决定分组从源到目的地的路径。决定路径的算法称为路由选择算法 routing algorithm
@@ -637,13 +642,261 @@
 - 硬件实现转发功能，总称为路由器转发平面 router forwarding plane
 - 软件实现路由选择等功能，总称为路由器控制平面 router control plane
 
-##### 路由器组成部分
+##### 路由器组成（路由选择数据平面部分）
 
 - 输入端口
-  - 物理层功能：将一条输入的物理链路与路由器相连接
-  - 数据链路层功能：与位于入链路远端的数据链路层交互
-  - 查找功能：查询转发表决定输出端口，控制分组转发到路由选择处理器
-- 交换结构，将输入端口与输出端口相连接
+  - 功能
+    - 物理层功能：将一条输入的物理链路与路由器相连接
+    - 数据链路层功能：与位于入链路远端的数据链路层交互
+    - 查找功能：查询转发表决定输出端口，控制分组转发到路由选择处理器
+  - 动作
+    - 物理层、链路层处理
+    - 检查分组版本号、检验和、寿命字段，并更新后两个字段
+    - 更新用于网络管理的计数器
+  - -> 线路端接 -> 数据链路处理（协议、拆封）-> 查找、转发、排队 -> 交换结构
+  - 转发表的副本被存放在每个输入端口，在输入端口根据转发表查找输出端口，无需调用中央路由选择处理器，避免集中式处理瓶颈
+  - 三态内容可寻址寄存器 Tenary Content Address Memory TCAM 常用于查找
+  - 线路前部 Head-Of-the-Line HOL 阻塞，即在输入队列中的分组必须等待以通过交换结构，他被位于线路前部的另一个分组所阻塞，即使其目的输出端口是空闲的
+- 交换结构，将输入端口与输出端口相连接，核心部位
+  - 经内存交换，交换在CPU即路由选择处理器的直接控制下完成，现代路由器的查找和交换到内存由输入线路处理，因为共享系统总线一次仅能执行一个内存读写，即使有不同的端口号的分组也不能被同时处理
+  - 经总线交换，输入端口为分组设置交换机内部标签后，通过共享总线，不需路由选择处理器的干预，直接传送到所有输出端口，输出端口根据标签内容决定是否保留并除去标签。多个分组同时到达时，因为一次只有一个分组能跨越总线，故交换带宽受总线速率影响
+  - 经互连网络交换，克服单一、共享式总线带宽限制。纵横式交换机由2N条总线组成，连接N个输入N个输出端口，每条垂直的总线在交叉点与每条水平总线交叉，交叉点通过交换结构控制器在任何时间开启闭合。能够并行转发多个分组，但不能来自同一输入端口或发送到同一输出端口
 - 输出端口：输出端口储存了从交换结构接收的分组，并在链路上传输
+  - 需要路由器缓存来吸收流量负载的波动
+  - 根据经验，缓存数量B应等于平均往返时延RTT乘链路的容量C，如250msRTT的10Gbps链路需要的缓存量为 `B = RTT · C = 2.5Gb`，当有大量TCP流N时，则可以减小为`B = RTT · C / √N`
+  - 分组调度程序 packet scheduler 在排队分组中选择并发送，先来先服务FCFS、加权公平队列WFQ
+  - 主动队列管理 Active Queue Management AQM 算法为分组丢弃与标记策略，在缓存填满前丢弃或标记分组，以便向发送方提供拥塞信号
+    - 随机早期检测 Random Early Detection RED 算法为输出队列维护一个加权平均值，若该值小于最小阈值，则分组到达时进入队列，若队列满或该值大于最大阈值，则分组被标记或丢弃，在中间值时，按概率标记或丢弃，使用概率标记/丢弃函数
 - 路由选择处理器：执行路由选择协议，维护路由表及连接的链路状态信息，计算转发表，执行网络管理功能
 
+#### 4.4* IP 网际协议：因特网转发和编址
+
+##### 数据报格式 IPv4
+
+![IPv4](computer_network/IPv4.png)
+
+- 4bit 版本号，不同版本使用不同的数据报格式
+- 4bit 首部长度，由于包含可变选项，用于指定数据部分实际开始位置
+- 8bit 服务类型，区分数据报类型
+- 16bit 数据报长度，首部加数据部分总长度
+- 16bit 标识、标记、片偏移，与IP分片有关，IPv6不允许在路由器上对分组分片
+- 寿命 Time-To-Live TTL，用于确保数据报不会在环路循环，每次数据报被路由器处理时，该字段的值减一，为0时，数据报被丢弃
+- 上层协议，当数据报到达目的地时，指示交付的运输层协议
+- 首部检验和，将首部中的每16bit求和后反码运算
+- 32bit 源IP地址
+- 32bit 目的IP地址
+- 选项，很少使用，增加了处理开销，IPv6中已经去掉
+- 数据部分，即有效载荷
+
+##### IP数据报分片
+
+- 链路层协议承载的数据报长度不同，一个链路层帧能承载的最大数据量叫做最大传送单元 Maximum Transmission Unit MTU
+- 数据报传送路径上的每段链路可能使用不同的链路协议，导致不同的MTU
+- 当路由器发现数据报长度超出发送链路的MTU时，将数据报中的数据分成片 fragment，用单独的链路层帧封装并发送
+- 分片时，将标识、标志和片偏移字段放在数据报首部
+  - 拆分后的各分片有相同的标识
+  - 最后一个片的标志被设为0，其他的均为1，表示还有后续分片
+  - 偏移字段指定该片在初始数据报的位置，除最后一片外的有效载荷数据应为8字节的倍数，因此偏移值以8字节块为单位
+- 数据报的重组工作仅在端系统中进行，若部分分片未到达，则被丢弃
+
+##### IPv4编址
+
+- IP地址技术上是与接口 interface 相关联的
+- 点分十进制记法 dotted-decimal notation
+- 子网 subnet，分开主机和路由器的每个端口产生的隔离的网络岛
+- 子网掩码 network mask
+- 无类别域间路由选择 Classless InterDomain Routing CIDR 
+  - 形式`a.b.c.d/x`
+  - x指示第一部分中构成IP地址的网络部分，称为地址前缀/网络前缀 prefix
+  - 组织/子网内部共享前缀，在组织内部转发分组时才会使用剩余bit
+- 地址聚合 address aggregation / 路由聚合 route aggregation / 路由摘要 route summarization  使用单个网络前缀通告多个网络
+- CIDR之前，使用分类编址 classful addressing，8、16、24比特子网地址的子网分别为A、B、C类网络
+- IP广播地址 255.255.255.255，向该目的地址发出的数据报会被交付到同一网络中的所有主机
+- IP地址由因特网名字和编号分配机构 Internet Corporation for Assigned Names and Numbers ICANN 管理
+- 动态主机配置协议 Dynamic Host Configuration Protocol DHCP 是即插即用协议 plug-and-play
+  - 允许主机自动获取IP地址、子网掩码、第一条路由器地址即默认网关以及本地DNS服务器的地址
+  - 在主机加入时，从当前可用地址池中分配IP
+  - 当主机离开时，回收IP到地址池
+  - 通常由路由器作为代理
+  - 过程
+    - DHCP服务器发现，客户即新到主机在UDP分组中向67端口发送发现报文 discover message，生成的数据报使用广播地址作为目的地址，0.0.0.0作为源地址
+    - DHCP服务器提供，DHCP服务器收到发现报文时，使用提供报文 offer message 做出相应，提供报文同样使用广播地址，并包含有收到的发现报文的事务ID、提供的IP、网络掩码以及IP地址租用期 address lease time 即地址有效时间
+    - DHCP请求，客户从服务器中选择一个地址并使用请求报文 request message 进行响应
+    - DHCP ACK，服务器使用ACK报文进行响应
+
+##### 网络地址转换 Network Address Translation NAT
+
+- 具有专用地址的地域 realm 是指其地址仅对该网络中的设备有意义的而网络
+- NAT使路由器对外界隐藏子网细节，使离开的报文均拥有相同的源IP，使到达的报文均拥有相同的目的IP
+- NAT转换表使用IP地址和端口号的映射
+- 反对原因
+  - 将端口号用于主机编址
+  - 路由器应仅处理第三层分组
+  - 违反了端到端原则，即主机彼此直接对话
+  - 应使用IPv6解决IP地址短缺问题
+
+##### 控制报文协议 Internet Control Message Protocol ICMP
+
+- ICMP被主机和路由器用于沟通网络层信息，最经典的用途是差错报告
+- ICMP报文是作为IP有效载荷承载的，体系上是位于IP之上的
+- 报文内容包括一个类型字段、一个编码字段和引起该报文首次生成的IP数据报的首部和前8字节内容
+
+![ICMP](computer_network/ICMP.png)
+
+##### IPv6
+
+![IPv6](computer_network/IPv6.png)
+
+- 4bit 版本
+- 8bit 流量类型
+- 20bit 流标签
+- 16bit 有效载荷长度
+- 下一个首部，用于标识交付协议，同IPv4协议字段
+- 跳限制
+- 源地址
+- 目的地址
+- 数据
+
+不同点
+- 扩大的地址容量，地址长度增加到128bit，引入任播地址 anycast address，用于将数据报交付给一组主机中的任意一个
+- 简化的40字节首部，舍弃部分IPv4字段和选项，允许更快处理数据报，使用新的选项编码方式
+- 流标签与优先级，流 flow 的确切含义还未完全确定
+- 分片/组装只能在源与目的执行，若路由器发现数据报过大，则丢弃数据报并返回一个ICMP差错报文
+- 删除首部检验和，由于运输层和链路层协议执行了检验操作，无需再进行耗时检验
+- 删除选项字段，可以出现在下一个首部字段
+
+##### IPv4 到 IPv6 的迁移
+
+- 双栈 dual-stack，在不支持的路径上，将IPv6数据报映射成IPv4数据报，再在合适位置将其映射回来，但部分字段的信息会丢失
+- 隧道 tunneling，在不支持的路径上，将整个IPv6数据报封装到IPv4数据包的数据字段中，再合适位置取出
+
+#### 4.5* 路由选择算法
+
+- 与主机直接连接的路由器称为默认路由器 default router，也称作第一跳路由器 first-hop router
+- 将源主机的默认路由器称作源路由器 source router，目的主机的默认路由器称作目的路由器 destination router
+- 图 graph 邻居 neighbor 路径 path 最低费用路径 least-cost path 最短路径 shortest path
+
+##### 链路状态算法 Link State LS
+
+- 全局式路由选择算法 global routing algorithm，以网络所有节点的连通性及链路费用为输入，要求在计算前拥有完整信息
+- 完整的网络拓扑结构需要网络中每个节点进行链路状态广播 link state broadcast
+
+##### 距离向量算法 Distance Vector DV
+
+- 分散式路由选择算法 decentralized routing algorithm，以迭代、分布式的方式计算，通过与相邻节点交换信息，迭代计算出最低费用路径，异步的、自我终止的
+- Bellman-Ford 方程 d~x~(y) = min~v~{ c(x, v) + d~v~(y) }，其中d~x~(y)是结点x到结点y的最低费用路径费用，v是x的邻居，实际取得最小值的邻居结点v*即为转发表中的下一跳路由
+- 每个节点维护信息
+  - 到邻居的费用 c(x.v)
+  - 自己的距离向量 D~x~
+  - 每个邻居的距离向量 D~v~
+- 每个节点在初始化其维护的信息后向其邻居发送其距离向量副本
+- 每个在收到邻居发来的距离向量或到邻居的费用发生变化时，使用Bellman-Ford方程更新自己的距离向量，若其距离向量因此发生改变，则向其邻居发送改变后的距离向量，在迭代过程中，估计的最低费用将收敛到实际最低费用
+- 链路费用改变时
+  - 若费用降低，则能在几个迭代中完成更新
+  - 若费用增加，则可能导致无穷计数 count-to-infinity，在该过程中，存在路由选择环路 routing loop
+- 毒性逆转 poisoned reverse，当z的路由表选择通过y到达目的地x时，z向y通告的距离向量中，z到x的距离是∞的，因此y将不会试图向回传送而导致路由选择环路，但毒性逆转只能解决两个相邻结点间的无穷记数问题
+
+##### 层次路由选择
+
+- 自治系统 Autonomous System AS
+- 在一个自治系统内运行的路由选择算法叫自治系统内部路由选择协议 intra-autonomous system routing protocol，又称内部网关协议 interior gateway protocol
+- 在自治系统边缘与其他AS连接的路由器称为网关路由器 gateway router
+- 自治系统间路由选择协议 inter-autonomous system routing protocol 从相邻AS获取并传播可达性信息
+- 因特网中的所有AS都运行着同一个AS间路由选择协议即BGP
+- 热土豆路由选择 hot potato routing
+
+#### 4.6* 因特网中的路由选择
+
+##### 自治系统内部路由选择协议 RIP
+
+- 路由选择信息协议 Routing Information Protocol 是一种距离向量协议
+- 常用于下层ISP和组织网
+- 使用跳数作为费用测度，每条链路的费用为1，跳数是沿着从源路由器到目的子网的最短路径经过的子网数目（包括目的子网）
+- 一条路径的最大费用被限制为15
+- 路由选择更新信息在邻居间使用RIP响应报文 RIP response message 来交换，也被称作RIP通告 advertisement
+- 每台路由器维护一张RIP表，包含该路由器的距离向量和转发表，转发表有三列：目的子网、下一跳路由的标识、沿最短路径的跳数
+- 如果一台路由器超过一定时间没有从邻居收到报文，则认为其不可达，修改路由表并通报其他邻居
+
+##### 自治系统内部路由选择协议 OSPF
+
+- 开放最短路优先 Open Shortest Path First 是一种链路状态算法
+- 常用于上层ISP
+- 核心是一个使用洪泛链路状态信息的链路状态协议和一个Dijkstra最低费用路径算法
+- 每台路由器都构筑了整个自治系统的完整拓扑图，在本地运行最短路径算法，并确定以自身为根节点到所有子网的最短路径树
+- 各链路费用是根据需要自行配制的，从而提供了一种根据不同方式确定最短路径的机制
+- 路由器向自治系统内所有路由器广播路由选择信息，广播在链路状态发生变化或一定周期时发生
+- 优点
+  - 安全，能够鉴别交换信息
+  - 允许使用多条路径
+  - 对单播和多播路由选择的综合支持
+  - 支持在单个路由选择域内的层次结构
+- 配置成多个域时，每个区域运行自己的链路状态路由选择算法，其区域边界路由器 area border router 负责为流向该区域外的分组提供路由选择，只有一个区域配置为主干 backbone，主干总是包含全部的区域边界路由器
+
+##### 自治系统间的路由选择协议 BGP
+
+- 边界网关协议 Border Gateway Protocol
+- BGP中，目的地不是主机，而是CIDR化的前缀，代表一个子网或子网的集合
+- 每个自治系统由其全局唯一的自治系统号 Autonomous System Number ASN 标识
+- 功能
+  - 从相邻AS获得子网可达性信息
+  - 向本AS内部的路由器传播可达性信息
+  - 基于可达性信息和AS策略，决定到达子网的路径
+- BGP中，路由器使用179端口的半永久 TCP连接来交换路由选择信息
+- 对于每条TCP连接，被连接双方称为BGP对等方 peers，沿连接发送BGP报文的TCP连接称为BGP会话 session
+  - 跨越AS的称为外部GBP会话 eBGP，交换可达前缀列表
+  - 同一AS中的两台路由间的会话称为内部GBP会话 iBGP，发布前缀列表
+
+- 路由器通过BGP会话通告前缀时会包括一些BGP属性，带属性的前缀被称为一条路由 route
+  - AS-PATH 用于检测和防止循环通告
+  - NEXT-HOP
+- 当一台网关路由器接收到一台路由器通告时，使用其输入策略 import policy 来决定是否接收或过滤该路由
+- 路由器可以获得到达一条前缀的多条路由，使用消除规则
+  - 本地偏好值
+  - 最短AS-PATH的路由
+  - 最靠近NEXT-HOP洛阳桥的路由
+  - BGP标识符
+- 路由选择策略…
+
+#### 4.7 广播和多播路由选择
+
+- 广播，分组被交付给网络的所有节点
+- 多播 multicast，多播分组仅被交付给网络节点的一个子集
+
+## 6 Link layer & LANs
+#### 6.1 introduction, services
+
+- nodes: hosts and routers and anything run the link-layer protocol
+- links: communication channels that connect adjacent nodes along communication path
+- data-link layer transfers datagram from one node to physically adjacent node over a link
+- datagram transferred by different link protocols over different links
+- each  link protocol provides different services
+- services
+  - framing, encapsulate datagram into frame
+  - link access, Medium Access Control MAC protocol, MAC addresses used in frame headers
+    to identify source, destination  
+  - reliable delivery, used on high-error link
+  - flow control
+  - error detection
+  - error correction
+  - half-duplex and full-duplex, with half duplex, nodes at both ends of link can transmit, but not at same time
+- link layer implemented in network adapter / Network Interface Card NIC in every host, combination of hardware, software
+
+#### 6.2* error detection, correction 
+
+#### 6.3* multiple access protocols
+
+#### 6.4 LANs
+
+addressing, ARP
+
+Ethernet
+
+switches
+
+VLANS
+
+#### 6.5 link virtualization: MPLS
+
+#### 6.6 data center networking
+
+#### 6.7 a day in the life of a web request
