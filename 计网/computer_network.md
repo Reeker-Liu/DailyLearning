@@ -280,7 +280,7 @@
 - DNS协议运行在UDP上，使用53号端口，通常由其他应用层协议使用，将用户提供的主机名解析为IP地址
 
 - 主机别名 host aliasing，通常比规范主机名 canonical hostname 容易记忆，应用程序可以调用DNS来获得主机别名对应的规范主机名以及主机的IP地址
-- 邮件服务器别名 mail server aliasing，MX记录允许功德邮件服务器和web服务器使用同一个主机别名
+- 邮件服务器别名 mail server aliasing，MX记录允许公司邮件服务器和web服务器使用同一个主机别名
 - 负载分配 load distribution，在冗余的服务器之间进行负载分配，繁忙的站点被冗余分布在多台服务器上。由于冗余web服务器，一个IP地址集合与一个规范主机名相联系。当客户对某个主机名发出请求时，服务器用IP地址的整个集合进行相应，但对于每个独立的请求，循环这些IP地址的次序
 - 注册登录机构 registrar 是一个商业实体，验证域名的唯一性，将域名输入DNS数据库，并收取服务费用
 
@@ -862,6 +862,18 @@
 - 广播，分组被交付给网络的所有节点
 - 多播 multicast，多播分组仅被交付给网络节点的一个子集
 
+#### Network management and SNMP
+
+- managed devices contain managed objects whose data is gathered into a Management Information Base (MIB)
+- Simple Network Management Protocol SNMP
+  - request/response mode
+  - trap mode
+- SNMP operates in the application layer
+- SNMP messages are transported via UDP
+- Protocol Data Unit PDU
+
+
+
 ## 6 Link layer & LANs
 #### 6.1 introduction, services
 
@@ -880,23 +892,167 @@
   - error correction
   - half-duplex and full-duplex, with half duplex, nodes at both ends of link can transmit, but not at same time
 - link layer implemented in network adapter / Network Interface Card NIC in every host, combination of hardware, software
+- sending side:
+  - encapsulates datagram in frame
+  - adds error checking bits, rdt, flow control
+- receiving side:
+  - looks for errors, rdt, flow control
+  - extracts datagram, passes to upper layer at receiving side
 
 #### 6.2* error detection, correction 
 
+- EDC Error Detection and Correction bit
+- D = Data protected by error checking, may include header fields 
+
+##### 奇偶校验 Parity checking
+
+- single bit parity
+- 二维奇偶校验 two-dimensional bit parity
+- 前向纠错 Forward Error Correction FEC: the ability of error detection and correction at the receiving side 
+
+##### 因特网检验和 Internet checksum 
+
+- treat segment contents as sequence of 16-bit integers
+
+##### 循环冗余检测 Cyclic Redundancy check CRC
+
+- 多项式编码 polynomial code
+- choose r+1 bit pattern (generator), G 
+- compute r CRC bits, R, such that <D,R> exactly divisible by G (modulo 2)
+- D · 2^r^ XOR R = nG
+- R = remainder( D · 2^r^ / G)
+
 #### 6.3* multiple access protocols
+
+- point-to-point link
+  - point-to-point protocol PPP for dial-up access
+  - high-level data link control HDLC
+- broadcast link (shared wire or medium)
+  - simultaneous transmissions by nodes: interference / collision
+- multiple access protocol is distributed algorithm that determines how nodes share channel
+
+##### channel partitioning protocol
+
+- divide channel into smaller "pieces" (time slots, frequency, code)
+
+- allocate piece to node for exclusive use
+- unused pieces go idle
+
+##### random access protocol
+
+- allow collisions and recover from collisions
+- transmit at full channel data rate
+- when colliding use delayed retransmissions to recover
+
+Slotted ALOHA
+
+- assumptions:
+  - all frames same size
+  - time divided into equal size slots (time to transmit 1 frame)
+  - nodes start to transmit only slot beginning 
+  - nodes are synchronized
+  - if 2 or more nodes transmit in slot, all nodes detect collision
+- vwhen node obtains fresh frame, transmits in next slot
+  - if no collision: node can send new frame in next slot
+  - if collision: node retransmits frame in each subsequent slot with probability p until success
+- Pros:
+  - single active node can continuously transmit at full rate of channel
+  - highly decentralized: only slots in nodes need to be in sync
+  - simple
+- Cons:
+  - collisions, wasting slots
+  - idle slots
+  - nodes may be able to detect collision in less than time to transmit packet
+  - clock synchronization
+- efficiency: 1/e
+
+Pure (unslotted) ALOHA
+
+- no synchronization
+- collision probability increases
+- efficiency: 1/2e
+
+载波侦听多路访问 Carrier Sense Multiple Access CSMA
+
+- listen before transmit
+  - if channel sensed idle: transmit entire frame
+  - if channel sensed busy, defer transmission 
+- collisions occur because of propagation delay
+
+CSMA with Collision Detection CSMA/CD 
+
+- collisions detected within short time, colliding transmissions aborted, reducing channel wastage
+- when colliding, abort transmission and enter 二进制指数后退 binary exponential backoff, wait K·512 bit times, K in {0, 1, ... , 2^n^ - 1}
+- efficiency = 1 / (1+5t~prop~ / t~trans~)
+
+##### taking-turns protocol
+
+- nodes take turns, but nodes with more to send can take longer turns
+
+polling protocol
+
+- master node loop each node in turn with maximum transmission frames
+- cons
+  - polling overhead 
+  - latency
+  - master failure
+
+token-passing protocol
+
+- control token passed from one node to next
+- cons
+  - token overhead
+  - latency
+  - token failure
 
 #### 6.4 LANs
 
-addressing, ARP
+##### addressing, ARP
 
-Ethernet
+- LAN address / physical address / MAC address
+  - 48 bit, base 16 notation
+  - each adapter on LAN has unique LAN address
+  - get frame from one interface to another physically-connected interface
+  - broadcast address FF-FF-FF-FF-FF-FF
+- Address Resolution Protocol ARP
+  - ARP table: each IP node (host, router) on LAN has table <IP address; MAC address; TTL>
+    - IP/MAC address mappings for some LAN nodes
+    - TTL (Time To Live): time after which address mapping will be forgotten (typically 20 min)
+  - broadcasts ARP query packet, replies ARP packet with MAC address
+  - plug-and-play
 
-switches
+##### Ethernet
 
-VLANS
+- physical topology
+  - bus
+  - hub
+  - switch
+- Ethernet frame
+  - preamble, used to synchronize receiver, sender clock rates
+  - source MAC address
+  - destination MAC address
+  - type: indicates higher layer protocol 
+  - data (46B ~ 1500B)
+  - CRC: cyclic redundancy check
 
-#### 6.5 link virtualization: MPLS
+##### switches
 
-#### 6.6 data center networking
+- services
+  - transparent
+  - filtering
+  - forwarding
+  - switch table
+  - plug-and-play
+- self-learning
 
-#### 6.7 a day in the life of a web request
+##### VLAN
+
+- Virtual Local Network
+- traffic isolation
+- dynamic membership
+- forwarding between VLANS
+- trunk port
+- 802.1Q VLAN frame format add 2B Tag Protocol Identifier and 3B Tag
+  Control Information
+
+#### 
