@@ -29,6 +29,7 @@
 - 端系统交换报文 message，可以包含控制内容或数据
 - 源端将长报文划分成分组 packet，通过通信链路和分组交换机（分组交换机有路由器 router 和链路层交换机 link-layer switch）传送
 - 若源端系统或分组交换机经过一条链路发送L比特的分组，传输速率为R bps，则传输时间为L/R秒
+- The bandwidth-delay product of a link is the maximum number of bits that can be in the link
 - 储存转发传输 store-and-forward transmission
   - 分组交换机在接收并处理整个分组后才开始向输出链路传输该分组，先缓存再转发
 - 排队时延和分组丢失
