@@ -124,6 +124,7 @@
     - routing of **datagrams** from source to destination
   - 链路层 link
     - 将帧 **frame** 从一个结点移动到下一结点
+    - transfers datagram from one node to physically adjacent node over a link
   - 物理层 physical
     - 将帧中的**bit**从当前结点移动到下一结点
     - 与实际传输媒体有关
@@ -228,10 +229,10 @@
 
 - 允许站点对用户进行跟踪，用于标识一个用户，在无状态HTTP上建立用户会话层
 - 组件
-  - HTTP响应报文中的cookie首部行
-  - HTTP请求报文中的cookie首部行
-  - 用户端系统中由浏览器管理的cookie文件
-  - web服务器的数据库
+  - cookie header line of HTTP *response* message
+  - cookie header line in next HTTP *request* message
+  - cookie file kept on user's host, managed by user's browser
+  - back-end database at Web site
 
 ##### web缓存 cache
 
@@ -326,7 +327,7 @@
 
 ##### DNS报文
 
-- 查询和回答报文具有相同的格式
+- 查询 query 和回答报文具有相同的格式
 - 12B 首部区域
   - 16bit 标识，复制到回答报文以进行匹配
   - 标志字段
@@ -718,7 +719,7 @@
 - 选项，很少使用，增加了处理开销，IPv6中已经去掉
 - 数据部分，即有效载荷
 
-##### IP数据报分片
+##### IP数据报分片 fragmentation
 
 - 链路层协议承载的数据报长度不同，一个链路层帧能承载的最大数据量叫做最大传送单元 Maximum Transmission Unit MTU
 - 数据报传送路径上的每段链路可能使用不同的链路协议，导致不同的MTU
@@ -727,7 +728,7 @@
   - 拆分后的各分片有相同的标识
   - 最后一个片的标志被设为0，其他的均为1，表示还有后续分片
   - 偏移字段指定该片在初始数据报的位置，除最后一片外的有效载荷数据应为8字节的倍数，因此偏移值以8字节块为单位
-- 数据报的重组工作仅在端系统中进行，若部分分片未到达，则被丢弃
+- 数据报的重组 reassemly 工作仅在端系统中进行，若部分分片未到达，则被丢弃
 
 ##### IPv4编址
 
@@ -883,7 +884,7 @@
 - 路由器可以获得到达一条前缀的多条路由，使用消除规则
   - 本地偏好值
   - 最短AS-PATH的路由
-  - 最靠近NEXT-HOP洛阳桥的路由
+  - 最靠近NEXT-HOP的路由
   - BGP标识符
 - 路由选择策略…
 
