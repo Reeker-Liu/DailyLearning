@@ -756,7 +756,7 @@
 
 ##### 网络地址转换 Network Address Translation NAT
 
-- 具有专用地址的地域 realm 是指其地址仅对该网络中的设备有意义的而网络
+- 具有专用地址的地域 realm 是指其地址仅对该网络中的设备有意义的子网络
 - NAT使路由器对外界隐藏子网细节，使离开的报文均拥有相同的源IP，使到达的报文均拥有相同的目的IP
 - NAT转换表使用IP地址和端口号的映射
 - 反对原因
@@ -783,8 +783,8 @@
 - 16bit 有效载荷长度
 - 下一个首部，用于标识交付协议，同IPv4协议字段
 - 跳限制
-- 源地址
-- 目的地址
+- 128bit 源地址
+- 128bit 目的地址
 - 数据
 
 不同点
@@ -944,7 +944,7 @@
 
 - treat segment contents as sequence of 16-bit integers
 
-##### 循环冗余检测 Cyclic Redundancy check CRC
+##### 循环冗余检测 Cyclic Redundancy Check CRC
 
 - 多项式编码 polynomial code
 - choose r+1 bit pattern (generator), G 
@@ -972,7 +972,7 @@
 
 - allow collisions and recover from collisions
 - transmit at full channel data rate
-- when colliding use delayed retransmissions to recover
+- when colliding, use delayed retransmissions to recover
 
 Slotted ALOHA
 
@@ -982,7 +982,7 @@ Slotted ALOHA
   - nodes start to transmit only slot beginning 
   - nodes are synchronized
   - if 2 or more nodes transmit in slot, all nodes detect collision
-- vwhen node obtains fresh frame, transmits in next slot
+- when node obtains fresh frame, transmits in next slot
   - if no collision: node can send new frame in next slot
   - if collision: node retransmits frame in each subsequent slot with probability p until success
 - Pros:
@@ -1057,7 +1057,7 @@ token-passing protocol
   - bus
   - hub
   - switch
-- Ethernet frame
+- Ethernet frame stucture
   - preamble, used to synchronize receiver, sender clock rates
   - source MAC address
   - destination MAC address
@@ -1084,5 +1084,3 @@ token-passing protocol
 - trunk port
 - 802.1Q VLAN frame format add 2B Tag Protocol Identifier and 3B Tag
   Control Information
-
-#### 
