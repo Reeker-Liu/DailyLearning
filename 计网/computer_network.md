@@ -622,26 +622,36 @@
   - IP协议
   - 路由选择协议
   - 互联网控制报文协议 ICMP
-
 - 功能
-  - 转发 forwarding 涉及分组在单一路由器中从入链到出链的传送
-  - 路由选择 routing 涉及一个网络的所有路由器，经路由选择协议交互，决定分组从源到目的地的路径。决定路径的算法称为路由选择算法 routing algorithm
+  - 转发 forwarding 涉及分组在单一路由器中从入链到出链的传送 / move packets from router's input to appropriate router output
+    - 路由器具有转发表 forwarding table。通过检查到达分组首部字段的值，在转发表中进行索引查询并转发
+    - 链路层交换机 link-layer switches 基于链路层字段中的值做转发
+    - 路由器基于网络层字段中的值做转发
+  - 路由选择 routing 涉及一个网络的所有路由器，经路由选择协议交互，决定分组从源到目的地的路径 / determine route taken by packets from source to destination
+    - 决定路径的算法称为路由选择算法 routing algorithm
   - 连接建立 connection setup，在某些网络中提供，允许发送方接收方建立所需的状态
-- 路由器具有转发表 forwarding table。通过检查到达分组首部字段的值，在转发表中进行索引查询并转发
-- 链路层交换机 link-layer switches 基于链路层字段中的值做转发
-- 路由器基于网络层字段中的值做转发
+- *Data plane*
+  - local, per-router function
+  - determines how datagram arriving on router input port is forwarded to router output port
+  - forwarding function
+- *Control plane*
+  - network-wide logic
+  - determines how datagram is routed among routers along end-end path from source host to destination host
+  - two control-plane approaches:
+    - *traditional routing algorithms:* implemented in routers
+    - *software-defined networking (SDN)*: implemented in (remote) servers
 - 网络服务模型可能提供的端到端特性
-  - 确保交付
-  - 具有时延上界的交付
-  - 有序交付
-  - 最小带宽保证
-  - 最大时延抖动
+  - 确保交付 guaranteed delivery
+  - 具有时延上界的交付 delivery with certain delay
+  - 有序交付 in-order delivery
+  - 最小带宽保证 guaranteed minimum bandwidth
+  - 最大时延抖动 restrictions on changes in inter-packet spacing
   - 安全性服务
 - 因特网提供尽力而为服务 best-effort service，实际上不提供任何服务…
 
 #### 4.2 虚电路和数据报网络
 
-- 在网络层提供主机到主机的连接服务的称为虚电路 Virtual-Circuit VC 网络
+- 在网络层提供主机到主机的**连接服务**的称为虚电路 Virtual-Circuit VC 网络
   - 一条虚电路组成
     - 源和目的主机间的路径
     - VC号，沿着该路径的每段链路的一个号码
@@ -649,9 +659,9 @@
   - 属于某条虚电路的分组将在首部携带VC号
   - 在传输过程中，每台中间路由要将传输分组的VC进行替换
   - 虚电路网络中的路由器必须为进行中的连接维持连接状态信息 connection state information
-  - 端系统向网络发送指示虚电路启动与终止的报文以及路由器之间传递的用于建立虚电路的报文被称为信令报文 signaling message
+  - 端系统向网络发送指示虚电路启动与终止的报文以及路由器之间传递的用于建立虚电路的报文，统称为信令报文 signaling message
   - 用来交换这些报文的协议称为信令协议 signaling protocol
-- 在网络层提供无连接服务的称为数据报网络 datagram network，因特网属于数据报网络
+- 在网络层提供**无连接服务**的称为数据报网络 datagram network，因特网属于数据报网络
   - 路由器使用分组的目的地址的前缀与转发表中的表项进行匹配，向匹配到的链路转发分组
   - 当存在多个匹配时，使用最长前缀匹配规则 longest prefix matching rule
   - 转发表能够在任何时刻修改，所以分组在网络中传输时可能通过不同的路径乱序到达
@@ -666,7 +676,7 @@
 
 - 输入端口
   - 功能
-    - 物理层功能：将一条输入的物理链路与路由器相连接
+    - 物理层功能：将一条输入的物理链路与路由器相连接 bit-level reception
     - 数据链路层功能：与位于入链路远端的数据链路层交互
     - 查找功能：查询转发表决定输出端口，控制分组转发到路由选择处理器
   - 动作
@@ -677,10 +687,10 @@
   - 转发表的副本被存放在每个输入端口，在输入端口根据转发表查找输出端口，无需调用中央路由选择处理器，避免集中式处理瓶颈
   - 三态内容可寻址寄存器 Tenary Content Address Memory TCAM 常用于查找
   - 线路前部 Head-Of-the-Line HOL 阻塞，即在输入队列中的分组必须等待以通过交换结构，他被位于线路前部的另一个分组所阻塞，即使其目的输出端口是空闲的
-- 交换结构，将输入端口与输出端口相连接，核心部位
+- 交换结构 Switching fabrics，将输入端口与输出端口相连接，核心部位
   - 经内存交换，交换在CPU即路由选择处理器的直接控制下完成，现代路由器的查找和交换到内存由输入线路处理，因为共享系统总线一次仅能执行一个内存读写，即使有不同的端口号的分组也不能被同时处理
-  - 经总线交换，输入端口为分组设置交换机内部标签后，通过共享总线，不需路由选择处理器的干预，直接传送到所有输出端口，输出端口根据标签内容决定是否保留并除去标签。多个分组同时到达时，因为一次只有一个分组能跨越总线，故交换带宽受总线速率影响
-  - 经互连网络交换，克服单一、共享式总线带宽限制。纵横式交换机由2N条总线组成，连接N个输入N个输出端口，每条垂直的总线在交叉点与每条水平总线交叉，交叉点通过交换结构控制器在任何时间开启闭合。能够并行转发多个分组，但不能来自同一输入端口或发送到同一输出端口
+  - 经总线交换，输入端口为分组设置交换机内部标签后，通过共享总线，不需路由选择处理器的干预，直接传送到所有输出端口，输出端口根据标签内容决定是否保留并除去标签。多个分组同时到达时，因为一次只有一个分组能跨越总线，故交换带宽受总线速率影响 *bus contention*
+  - 经互连网络 interconnection network 交换，克服单一、共享式总线带宽限制。纵横式交换机由2N条总线组成，连接N个输入N个输出端口，每条垂直的总线在交叉点与每条水平总线交叉，交叉点通过交换结构控制器在任何时间开启闭合。能够并行转发多个分组，但分组不能来自同一输入端口或发送到同一输出端口
 - 输出端口：输出端口储存了从交换结构接收的分组，并在链路上传输
   - 需要路由器缓存来吸收流量负载的波动
   - 根据经验，缓存数量B应等于平均往返时延RTT乘链路的容量C，如250msRTT的10Gbps链路需要的缓存量为 `B = RTT · C = 2.5Gb`，当有大量TCP流N时，则可以减小为`B = RTT · C / √N`
