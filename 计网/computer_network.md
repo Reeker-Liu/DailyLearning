@@ -16,7 +16,7 @@
 
 #### 1.2 网络边缘
 
-- 端系统划分为客户 client和服务器 server
+- 端系统划分为客户 client 和服务器 server
 - 接入网 access network 指将端系统连接到边缘路由器 edge router 的物理链路，边缘路由器是端系统到其他远程端系统路径上的第一台路由器
 - 数字用户线 Digital Subscriber Line DSL、DSL调制解调器、数字用户线接入复用器DSLAM、频分复用技术
 - 电缆 cable、混合光纤同轴 Hybrid Fiber Coax HFC、电缆调制解调器 cable modem、电缆调制解调器端接系统 Cable Modem Termination System CMTS
@@ -59,7 +59,7 @@
 - 网络结构1 单一的全球承载ISP互联所有接入ISP access ISP，全球承载ISP为提供商 provider，接入ISP为客户 customer
 - 网络结构2 数十万接入ISP和多个全球承载ISP
 - 网络结构3 多层等级结构，向上级付费，最高层不付费，区域ISP regional，第x层ISP tier-x
-- 网络结构4 增加存在点 Point of Presence PoP 存在于除底层的各层次，提供网络中一到多台路由器与提供商ISP连接，多宿 multi-home 使两个或更多提供商ISP互相连接，对等 peer 使相同等级的邻近ISP对直接连接，因特网交换点 Internet Exchange Point IXP 使多个ISP共同对等
+- 网络结构4 增加存在点 Point of Presence PoP 存在于除底层的各层次，提供网络中一到多台路由器与提供商ISP连接，多宿 multi-home 使两个或更多提供商ISP互相连接，对等 peer 使相同等级的邻近ISP对直接连接，因特网交换点 Internet eXchange Point IXP 使多个ISP共同对等
 - 网络结构5 在4的顶部增加内容提供商网络 content provider network
 
 #### 1.4* 分组交换网中的时延、丢包和吞吐量
@@ -73,7 +73,7 @@
 
 ##### 排队时延 queuing delay
 
-- waiting at output link for transmission 
+- waiting at output for transmission 
 - 流量强度为 La/R，a pkt/s为分组到达速率，R为传输速率，L为分组大小
 - 随着流量强度接近1，时延迅速增加
 
@@ -180,7 +180,7 @@
 - Web页面由对象组成，包含一个基本文件 *base HTML-file* 和引用对象 *referenced objects*
 - HTTP定义了Web客户与服务器请求和发送页面的方式
 - HTTP不保存关于客户的任何信息，是无状态协议 stateless protocol
-- HTTP默认采用持续连接 persistent connection，所有的请求及响应通过相同的TCP连接发送，超时未被使用则关闭该连接
+- HTTP默认采用持续连接 persistent connection，所有的请求及响应通过相同的TCP连接发送，超时未用则关闭该连接
 - 非持续 non-persistent 连接时，每个TCP连接在服务器发送一个对象后关闭
 - 往返时间 Round-Trip Time RTT，指一个短分组从客户到服务器再返回花费的时间
 
