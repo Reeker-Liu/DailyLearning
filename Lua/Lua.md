@@ -65,7 +65,6 @@ comment
 - `type()`函数可用于测试给定变量/值的类型
 - 可以用 2 个方括号 `[[  ]]` 来包括多行字符串
 - 内容连接使用的是 `..`，如`"ab" .. "cd"` `123 .. 456`
-- 用`#` 来计算字符串的长度，放在字符串前面，如`print(#"123")`
 - Lua 里，最主要的线程是协同程序（coroutine）。跟线程（thread）差不多，拥有自己独立的栈、局部变量和指令指针，可以跟其他协同程序共享全局变量和其他大部分东西。线程跟协程的区别：线程可以同时多个运行，而协程任意时刻只能运行一个，并且处于运行状态的协程只有被挂起（suspend）时才会暂停
 - 索引为字符串类型时，`table["key"]` 等同于 `table.key`
 
@@ -139,4 +138,60 @@ else
 end
 ```
 
-##### 
+
+
+#### 函数
+
+```lua
+-- optional_function_scope: 可选，默认为全局函数，局部函数使用关键字 local
+optional_function_scope function function_name( argument1, argument2, ... argumentn)
+    function_body
+    return result_params_comma_separated --函数返回值，可以返回多个值，以逗号隔开
+end
+
+-- 使用 ... 表示函数有可变的参数
+function average(...)
+   result = 0
+   local arg={...}
+   for i,v in ipairs(arg) do
+      result = result + v
+   end
+   -- 可以通过 select("#",...) 来获取可变参数的数量
+   print("number: " .. select("#",...))
+   return result/select("#",...)
+end
+
+do  
+    function foo(...)  
+        for i = 1, select('#', ...) do  -- 获取参数总数
+            local arg = select(i, ...); -- 读取特定参数
+            print("arg", arg);  
+        end  
+    end  
+  
+    foo(1, 2, 3, 4);  
+end
+```
+
+
+
+#### 运算符
+
+##### 算数运算符
+
+- 常规 `+` `-` `*` `/` `%` 
+- `^` 乘幂
+
+##### 关系运算符
+
+- 常规 `==` `>` `<` `<=` `>=`
+- `~=` 不等于
+
+##### 逻辑运算符
+
+- `and` `or` `not` 
+
+##### 其他
+
+- `..` 连接两个字符串
+- `#` 一元运算符，返回字符串或表的长度
