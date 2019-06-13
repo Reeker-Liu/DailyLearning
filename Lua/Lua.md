@@ -1,3 +1,5 @@
+[TOC]
+
 #### 概览
 
 - 动态类型语言、脚本语言
@@ -56,7 +58,7 @@ comment
 | nil      | 表示一个无效值 / 在条件表达式中相当于false                   |
 | boolean  | true / false                                                 |
 | number   | 双精度类型的实浮点数                                         |
-| string   | 字符串由双引号或单引号来表示                                 |
+| string   | 字符串                                                       |
 | function | 由 C 或 Lua 编写的函数                                       |
 | userdata | 用户自定义数据，表示由应用程序或 C/C++ 语言库所创建的类型，可以将任意 C/C++ 的任意数据类型的数据（通常是 struct 和 指针）存储到 Lua 变量中调用 |
 | thread   | 表示执行的独立线路，用于执行协同程序                         |
@@ -195,3 +197,47 @@ end
 
 - `..` 连接两个字符串
 - `#` 一元运算符，返回字符串或表的长度
+
+
+
+#### 字符串
+
+- 表示方式
+  - 单引号间
+  - 双引号间
+  - [[ 和 ]] 间
+- 常规转义字符
+
+##### 字符串函数
+
+> 查找和替换函数中，正则表达式使用%作为转义字符
+
+- string.upper(str)
+- string.lower(str)
+- string.sub(str,init,[end])
+- string.gsub(mainStr,findStr,replaceStr,num) 
+  - 替换，mainStr为要替换的字符串， findStr为被替换的字符，replaceStr 要替换的字符，num替换次数（忽略则全部替换）
+- string.find (str, substr, [init, [end]])
+  - 在目标字符串中搜索指定内容，返回其起始位置和结束位置两个下标，不存在则返回 nil
+- string.reverse(str)
+- string.format(...) 
+  - 常规占位符
+- string.char(str) 将整型数字转成字符并连接
+  - `string.char(97,98,99,100) --abcd`
+- string.byte(str[,int]) 转换字符为整数值
+  - `string.byte("abcd",4) --100`
+- string.len(str)
+- string.rep(str, n)
+  - 返回字符串str的n个拷贝
+- string.gmatch(str, pattern)
+  - 返回一个迭代器函数，每一次调用返回下一个符合 pattern 描述的子串。若没有找到，迭代函数返回nil
+  - `for word in string.gmatch("Hello Lua user", "%a+") do print(word) end`
+- string.match(str, pattern, init)
+  - ？
+  - 寻找第一个配对. 参数init指定搜寻起点, 默认为1
+  - 成功配对时, 返回配对表达式中的所有捕获结果; 如果没有设置捕获标记, 则返回整个配对字符串. 当没有成功的配对时, 返回nil
+
+
+
+#### 数组
+
