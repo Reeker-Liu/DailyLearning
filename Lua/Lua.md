@@ -241,3 +241,63 @@ end
 
 #### 数组
 
+- 索引键值可以使用整数表示，默认起始为1
+- 数组的大小不是固定的，动态添加
+
+
+
+#### 迭代器
+
+- 迭代器是一种对象，用来遍历标准模板库容器中的部分或全部元素，每个迭代器对象代表容器中的确定的地址，支持指针类型
+- 泛型 for 实际保存三个值：迭代函数、状态常量、控制变量
+- 执行过程：
+  - 首先，初始化，计算 in 后面表达式的值，表达式应该返回泛型 for 需要的三个值：迭代函数、状态常量、控制变量
+  - 第二，将状态常量和控制变量作为参数调用迭代函数
+  - 第三，将迭代函数返回的值赋给变量列表
+  - 第四，如果返回的第一个值为nil则循环结束，否则执行循环体
+  - 第五，回到第二步
+
+##### 无状态迭代器
+
+- 不保留任何状态的迭代器，避免创建闭包花费额外的代价
+
+- 每一次迭代，迭代函数用状态常量和控制变量的值作为参数调用，获取下一个元素
+
+```lua
+-- ipairs简单实现
+function iter (a, i)
+    i = i + 1
+    local v = a[i]
+    if v then
+       return i, v
+    end
+end
+ 
+function ipairs (a)
+    return iter, a, 0
+end
+```
+
+##### 多状态迭代器 ？
+
+```lua
+function elementIterator (collection)
+   local index = 0
+   local count = #collection
+   -- 闭包函数
+   return function ()
+      index = index + 1
+      if index <= count
+      then
+         --  返回迭代器的当前元素
+         return collection[index]
+      end
+   end
+end
+
+for element in elementIterator(array)
+do
+   print(element)
+end
+```
+
