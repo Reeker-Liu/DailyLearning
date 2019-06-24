@@ -34,7 +34,7 @@
 
 `svn status`
 
-`?`为未添加，使用`svn add filename`添加
+`?`为未添加文件，不属于版本库控制，不能提交，使用`svn add filename`添加到版本库
 
 `A`为已添加
 
